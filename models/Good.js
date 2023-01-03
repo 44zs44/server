@@ -8,6 +8,7 @@ const schema=new mongoose.Schema({
     goodsPrice:{type :Number},
     goodsPlace:{type :String},
     publishTime:{type :String},
+    mobile:{type :Number},
 })
 
 module.exports = mongoose.model("Good",schema)
