@@ -103,7 +103,11 @@ module.exports = app => {
                 //模糊查询
                 const model = await Good.find({goodsName: {$regex:params.query.goodsNameSearch}})
                 res.send(model)
-            } else if (params.query.type !== undefined) {
+            } else if (params.query.goodsDescription !== undefined) {
+                //模糊查询
+                const model = await Good.find({goodsDescription: {$regex:params.query.goodsDescription}})
+                res.send(model)
+            }else if (params.query.type !== undefined) {
                 if (params.query.type!==""){
                     //模糊查询
                     const model = await Good.find({type: params.query.type})
