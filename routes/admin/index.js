@@ -92,8 +92,67 @@ module.exports = app => {
     router.get('/getGoodsList', async (req, res) => {
         console.log("进入获取物品接口====>")
         let params = urlLib.parse(req.url, true);
-        //有传参
-        if (JSON.stringify(params.query) !== '{}') {
+        console.log(params.query)
+        if (JSON.stringify(params.query) === '{}') {
+            const model = await Good.find()
+            res.send(model)
+        } else {
+            if (params.query.id ===undefined) {//列表数据模糊查询
+                //多条件查询
+                const model = await Good.find({
+                        $and: [
+                            {type: {$regex: params.query.type}},
+                            {goodsName: {$regex: params.query.goodsNameSearch}},
+                            {goodsDescription: {$regex: params.query.goodsDescription}},
+                        ]
+                    }
+                )
+                res.send(model)
+            }else {//编辑数据查询单数据
+                const model = await Good.findById(params.query.id)
+                res.send(model)
+            }
+        }
+        console.log("<===退出获取物品接口")
+    })
+
+
+    /*删除一条物品接口*/
+    router.post('/deleteGood', async (req, res) => {
+        console.log("进入删除物品接口==>")
+        console.log(JSON.stringify(req.body))
+        if (req.body !== {}) {
+            const model = await Good.findByIdAndDelete(req.body.id)
+            res.send(model)
+        } else {
+            res.send({message: '无传递数据'})
+        }
+        console.log("<===退出删除物品接口")
+    })
+
+
+    app.use('/admin/api', router)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//单体条件模糊查询
+/*        if (JSON.stringify(params.query) !== '{}') {
             console.log("获取物品get接口有传参数,===>" + JSON.stringify(params.query))
             //通过id查找数据
             if (params.query.id !== undefined) {
@@ -124,28 +183,6 @@ module.exports = app => {
             //返回所有数据
             const model = await Good.find()
             res.send(model)
-        }
-        console.log("<===退出获取物品接口")
-    })
-
-
-    /*删除一条物品接口*/
-    router.post('/deleteGood', async (req, res) => {
-        console.log("进入删除物品接口==>")
-        console.log(JSON.stringify(req.body))
-        if (req.body !== {}) {
-            const model = await Good.findByIdAndDelete(req.body.id)
-            res.send(model)
-        } else {
-            res.send({message: '无传递数据'})
-        }
-        console.log("<===退出删除物品接口")
-    })
-
-
-    app.use('/admin/api', router)
-}
-
-
+        }*/
 
 
