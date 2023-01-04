@@ -8,7 +8,7 @@ const schema=new mongoose.Schema({
     goodsPrice:{type :Number},
     goodsPlace:{type :String},
     publishTime:{type :String},
-    mobile:{type :Number},
+    mobile:{type :String},
 })
 
 module.exports = mongoose.model("Good",schema)
