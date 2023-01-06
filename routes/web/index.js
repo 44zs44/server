@@ -1,6 +1,5 @@
 const urlLib = require('url')
 const multer = require('multer')
-const Admin = require("../../models/Admin");
 const upload = multer({dest: __dirname + '/../../uploads'})
 module.exports = app => {
     const express = require('express');
@@ -9,7 +8,7 @@ module.exports = app => {
     const Category = require('../../models/Category')
     const Good = require("../../models/Good");
     const Admin = require("../../models/Admin");
-
+    const User = require("../../models/User");
 
 
 //接口
@@ -166,21 +165,8 @@ module.exports = app => {
 
 
 
-    router.post('/user/register', async (req, res) => {
-/*        console.log("进入login接口==>")
-        console.log(req.body)
-        if (await Admin.findOne(req.body)){
-            res.send({token: req.body.username})
-        }else {
-            res.send({message: '账号或者密码错误！！！'})
-        }
 
-        console.log("<===退出login接口")*/
-    })
-
-
-
-    app.use('/admin/api', router)
+    app.use('/web/api', router)
 }
 
 
